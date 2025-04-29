@@ -50,60 +50,6 @@ Unlike cloud-based AI solutions, MCP-Ollama Server:
 - [Ollama](https://ollama.ai/) set up on your system
 - Git for cloning the repository
 
-### Installation
-
-```bash
-# Clone the repository
-git clone https://github.com/sethuram2003/mcp-ollama_server.git
-cd mcp-ollama_server
-
-# Set up a virtual environment (recommended)
-python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
-
-# Install all modules
-cd calendar && pip install -e . && cd ..
-cd client_mcp && pip install -e . && cd ..
-cd file_system && pip install -e .
-```
-
-### Basic Usage
-
-1. **Start Ollama with your preferred model:**
-
-```bash
-ollama run llama3
-```
-
-2. **Launch the modules you need:**
-
-```bash
-# Terminal 1: Start the file system module
-cd file_system
-python file_system.py
-
-# Terminal 2: Start the calendar module
-cd calendar
-python calendar_mcp.py
-
-# Terminal 3: Run the client
-cd client_mcp
-python client.py
-```
-
-3. **Interact with the system:**
-
-```python
-from client_mcp import MCPOllamaClient
-
-# Initialize the client
-client = MCPOllamaClient()
-
-# Example: Ask the model to read a file and create a calendar event
-response = client.chat("Please read my project_notes.txt file and schedule a meeting for the key milestones")
-
-print(response)
-```
 
 ## 🧩 Component Overview
 
@@ -160,13 +106,54 @@ The File System module allows your local LLM to:
 - Search for files matching specific patterns
 - Parse different file formats (text, CSV, JSON, etc.)
 
+### Installation
+
+```bash
+# 1. First install uv if you haven't already
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# 2. Clone the repository
+git clone https://github.com/sethuram2003/mcp-ollama_server.git
+cd mcp-ollama_server
+
+# 3. Verify Ollama model is installed (replace 'llama3' with your preferred model)
+ollama pull llama3
+```
+
+### Module Configuration
+
+1. **📅 Calendar Module:**
+
+```bash
+cd calendar
+uv add pyproject.toml  # Install calendar-specific dependencies
+```
+
+2. **🔄 Client MCP Module:**
+
+```bash
+cd client_mcp
+uv add pyproject.toml  # Install calendar-specific dependencies
+```
+
+3. **📁 File System Module:**
+
+```python
+cd file_system
+uv add pyproject.toml  # Install filesystem dependencies
+```
+### Usage
+
+```bash
+cd client_mcp
+uv run client.py ../file_system/file_system.py
+```
+
 ## 🏗️ Architecture
 
 MCP-Ollama Server follows a microservices architecture pattern, where each capability is implemented as an independent service:
 
-<div align="center">
-  <img src="https://raw.githubusercontent.com/sethuram2003/mcp-ollama_server/main/assets/system-diagram.png" alt="System Architecture Diagram" width="800px" />
-</div>
+
 
 ### Key Components:
 
@@ -190,29 +177,6 @@ Each module contains its own README with detailed implementation notes:
 - [Calendar Module Documentation](calendar/README.md)
 - [Client MCP Documentation](client_mcp/README.md)
 - [File System Documentation](file_system/README.md)
-
-### API Reference
-
-#### Client API
-
-```python
-# Initialize the client
-client = MCPOllamaClient(
-    ollama_url="http://localhost:11434",
-    model="llama3",
-    modules=["calendar", "file_system"]
-)
-
-# Basic chat interface
-response = client.chat("Your message here")
-
-# Advanced usage with tool specification
-response = client.chat(
-    "Schedule a team meeting next Tuesday",
-    tools=["calendar"],
-    context={"project": "MCP-Ollama Development"}
-)
-```
 
 ## 🛠️ Use Cases
 
@@ -250,20 +214,6 @@ We welcome contributions from the community! Here's how you can help:
 7. **Open a Pull Request**: Submit your changes for review
 
 Please read our [Contributing Guidelines](CONTRIBUTING.md) for more details.
-
-### Development Setup
-
-```bash
-# Set up development environment with test dependencies
-pip install -e ".[dev]"
-
-# Run tests
-pytest
-
-# Check code style
-black .
-flake8
-```
 
 ## ❓ FAQ
 
