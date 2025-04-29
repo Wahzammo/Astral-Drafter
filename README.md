@@ -2,7 +2,6 @@
 
 <div align="center">
 
-![MCP-Ollama Server Logo](https://raw.githubusercontent.com/sethuram2003/mcp-ollama_server/main/assets/logo.png)
 
 *Connect the power of Model Context Protocol with local LLMs*
 
@@ -31,9 +30,7 @@ Unlike cloud-based AI solutions, MCP-Ollama Server:
 - Provides a modular approach that allows you to use only the components you need
 - Enables enterprise-grade AI capabilities in air-gapped or high-security environments
 
-<div align="center">
-  <img src="https://raw.githubusercontent.com/sethuram2003/mcp-ollama_server/main/assets/architecture.png" alt="MCP-Ollama Server Architecture" width="700px" />
-</div>
+
 
 ## ✨ Key Features
 
