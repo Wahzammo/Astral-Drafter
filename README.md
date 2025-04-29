@@ -60,11 +60,9 @@ MCP-Ollama Server is organized into specialized modules, each providing specific
 ```
 calendar/
 ├── README.md          # Module-specific documentation
-├── calendar_mcp.py    # MCP implementation for calendar operations
 ├── google_calendar.py # Google Calendar API integration
 ├── pyproject.toml     # Dependencies and package info
-├── test.py            # Test cases for calendar functionality
-└── time_test.py       # Time-related utility tests
+└── uv.lock        # Dependency lock file
 ```
 
 The Calendar module enables your local LLM to:
