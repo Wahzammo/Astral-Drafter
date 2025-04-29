@@ -149,7 +149,7 @@ cd client_mcp
 uv run client.py ../file_system/file_system.py
 ```
 
-### example interactions with the agent:
+### Interactions with Agent:
 
 ![Chat_1](src/calendar_query.png)
 *conversation between AI Agent*
