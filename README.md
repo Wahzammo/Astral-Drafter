@@ -237,7 +237,6 @@ This project is licensed under the terms included in the [LICENSE](LICENSE) file
 
 - [Anthropic](https://www.anthropic.com/) for the Model Context Protocol specification
 - [Ollama](https://ollama.ai/) for their excellent local LLM server
-- All [contributors](https://github.com/sethuram2003/mcp-ollama_server/graphs/contributors) who have helped improve this project
 
 ---
 
