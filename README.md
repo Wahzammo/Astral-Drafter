@@ -149,6 +149,11 @@ cd client_mcp
 uv run client.py ../file_system/file_system.py
 ```
 
+### example interactions with the agent:
+
+![Chat_1](src/calendar_query.png)
+*conversation between AI Agent*
+
 ## 🏗️ Architecture
 
 MCP-Ollama Server follows a microservices architecture pattern, where each capability is implemented as an independent service:
