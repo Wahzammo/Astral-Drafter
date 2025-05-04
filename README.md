@@ -2,7 +2,6 @@
 
 <div align="center">
 
-
 *Connect the power of Model Context Protocol with local LLMs*
 
 [![GitHub license](https://img.shields.io/github/license/sethuram2003/mcp-ollama_server)](https://github.com/sethuram2003/mcp-ollama_server/blob/main/LICENSE)
