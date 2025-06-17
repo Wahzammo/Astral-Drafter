@@ -184,7 +184,7 @@ Each tool includes robust error handling for common scenarios:
 To start the MCP server:
 
 ```bash
-python file_manager_server.py
+python file_system.py
 ```
 
 ## Usage with MCP Clients
