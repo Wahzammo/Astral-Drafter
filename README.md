@@ -29,7 +29,7 @@ Your data stays local. All processing happens on your machine via Ollama.
 Maximum control, minimal bloat. No features you don't need for writing.
 
 ## ✨ Key Features
-- ** ✍️ Focused Writing Interface: ** A clean GUI designed for authors, not developers.
+- **✍️ Focused Writing Interface**: A clean GUI designed for authors, not developers.
 
 📊 Live Context Monitoring: A real-time progress bar shows your estimated token usage to help you stay within your model's context window.
 
