@@ -31,15 +31,15 @@ Maximum control, minimal bloat. No features you don't need for writing.
 ## ✨ Key Features
 - **✍️ Focused Writing Interface**: A clean GUI designed for authors, not developers.
 
-📊 Live Context Monitoring: A real-time progress bar shows your estimated token usage to help you stay within your model's context window.
+- **📊 Live Context Monitoring**: A real-time progress bar shows your estimated token usage to help you stay within your model's context window.
 
-💾 Direct-to-File Saving: Generated prose is automatically saved to a file you specify, creating a seamless workflow from prompt to draft.
+- **💾 Direct-to-File Saving**: Generated prose is automatically saved to a file you specify, creating a seamless workflow from prompt to draft.
 
-🔒 Complete Data Privacy: All models and data are processed locally via Ollama.
+- **🔒 Complete Data Privacy**: All models and data are processed locally via Ollama.
 
-⚙️ Minimal Overhead: A lightweight solution that respects your system's resources.
+- **⚙️ Minimal Overhead**: A lightweight solution that respects your system's resources.
 
-🤖 Model Agnostic: Works with any of your custom Ollama models.
+- **🤖 Model Agnostic**: Works with any of your custom Ollama models.
 
 ## 🚀 Quick Start
 Prerequisites
