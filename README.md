@@ -50,6 +50,8 @@ Ollama set up and running on your system
 Git for cloning the repository
 
 Installation & Setup
+
+~~~
 # 1. First install uv if you haven't already
 curl -LsSf [https://astral.sh/uv/install.sh](https://astral.sh/uv/install.sh) | sh
 
@@ -60,14 +62,16 @@ cd Astral-Drafter
 
 # 3. Verify an Ollama model is installed (e.g., your custom qwen3 model)
 ollama pull qwen3-astral
+~~~
 
 Running the Application
 Astral-Drafter has two parts: the back-end server and the front-end GUI.
 
 Step 1: Start the Back-End Server
 
-The server handles the connection to Ollama and saving files. You will need to modify the server code to handle the output_path functionality as we discussed.
+The server handles the connection to Ollama and saving files. You will need to modify the server code to handle the output_path functionality.
 
+~~~
 # Navigate to the file_system module and install its dependencies
 cd file_system
 uv sync
@@ -76,6 +80,7 @@ uv sync
 # (This command assumes you've modified the server to run stand-alone)
 cd ..
 uv run file_system/file_system.py 
+~~~
 
 Step 2: Launch the Front-End GUI
 
