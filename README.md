@@ -27,6 +27,7 @@ This project began as a fork of the powerful mcp-ollama_server and repurposes it
 - Your data stays local. All processing happens on your machine via Ollama.
 
 - Maximum control, minimal bloat. No features you don't need for writing.
+  
 
 ## ✨ Key Features
 - **✍️ Focused Writing Interface**: A clean GUI designed for authors, not developers.
@@ -41,13 +42,14 @@ This project began as a fork of the powerful mcp-ollama_server and repurposes it
 
 - **🤖 Model Agnostic**: Works with any of your custom Ollama models.
 
+
 ## 🚀 Quick Start
-Prerequisites
-Python 3.8+ installed
+**Prerequisites**
+- Python 3.8+ installed
 
-Ollama set up and running on your system
+- Ollama set up and running on your system
 
-Git for cloning the repository
+- Git for cloning the repository
 
 # Installation & Setup
 
