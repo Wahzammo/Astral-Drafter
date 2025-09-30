@@ -15,7 +15,7 @@ A lean, local-first drafting tool for creative writers, powered by a custom GUI 
 <p><em>The Astral-Drafter user interface in action.</em></p>
 </div>
 
-##📋 Overview
+## 📋 Overview
 Astral-Drafter is a specialized tool for novel writers and other creative professionals who want to leverage local LLMs without the overhead of complex, generic interfaces. It provides a clean, distraction-free GUI for generating long-form prose, complete with essential features for managing a limited context window.
 
 This project began as a fork of the powerful mcp-ollama_server and repurposes its robust back-end file handling to serve a single purpose: streamlining the creative drafting process.
@@ -28,20 +28,20 @@ Your data stays local. All processing happens on your machine via Ollama.
 
 Maximum control, minimal bloat. No features you don't need for writing.
 
-##✨ Key Features
-#✍️ Focused Writing Interface: A clean GUI designed for authors, not developers.
+## ✨ Key Features
+# ✍️ Focused Writing Interface: A clean GUI designed for authors, not developers.
 
-#📊 Live Context Monitoring: A real-time progress bar shows your estimated token usage to help you stay within your model's context window.
+# 📊 Live Context Monitoring: A real-time progress bar shows your estimated token usage to help you stay within your model's context window.
 
-#💾 Direct-to-File Saving: Generated prose is automatically saved to a file you specify, creating a seamless workflow from prompt to draft.
+# 💾 Direct-to-File Saving: Generated prose is automatically saved to a file you specify, creating a seamless workflow from prompt to draft.
 
-#🔒 Complete Data Privacy: All models and data are processed locally via Ollama.
+# 🔒 Complete Data Privacy: All models and data are processed locally via Ollama.
 
-#⚙️ Minimal Overhead: A lightweight solution that respects your system's resources.
+# ⚙️ Minimal Overhead: A lightweight solution that respects your system's resources.
 
-#🤖 Model Agnostic: Works with any of your custom Ollama models.
+# 🤖 Model Agnostic: Works with any of your custom Ollama models.
 
-##🚀 Quick Start
+## 🚀 Quick Start
 Prerequisites
 Python 3.8+ installed
 
