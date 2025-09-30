@@ -30,17 +30,17 @@ This project began as a fork of the powerful mcp-ollama_server and repurposes it
   
 
 ## ✨ Key Features
-- **✍️ Focused Writing Interface**: A clean GUI designed for authors, not developers.
+**✍️ Focused Writing Interface**: A clean GUI designed for authors, not developers.
 
-- **📊 Live Context Monitoring**: A real-time progress bar shows your estimated token usage to help you stay within your model's context window.
+**📊 Live Context Monitoring**: A real-time progress bar shows your estimated token usage to help you stay within your model's context window.
 
-- **💾 Direct-to-File Saving**: Generated prose is automatically saved to a file you specify, creating a seamless workflow from prompt to draft.
+**💾 Direct-to-File Saving**: Generated prose is automatically saved to a file you specify, creating a seamless workflow from prompt to draft.
 
-- **🔒 Complete Data Privacy**: All models and data are processed locally via Ollama.
+**🔒 Complete Data Privacy**: All models and data are processed locally via Ollama.
 
-- **⚙️ Minimal Overhead**: A lightweight solution that respects your system's resources.
+**⚙️ Minimal Overhead**: A lightweight solution that respects your system's resources.
 
-- **🤖 Model Agnostic**: Works with any of your custom Ollama models.
+**🤖 Model Agnostic**: Works with any of your custom Ollama models.
 
 
 ## 🚀 Quick Start
@@ -108,15 +108,15 @@ File System & GUI: The server receives the generated prose, simultaneously saves
 ## 🤝 Contributing
 This is a personal tool, but ideas for improving the writer's workflow are always welcome.
 
-Fork the Repository
+1. Fork the Repository
 
-Create a Feature Branch: git checkout -b feature/amazing-feature
+2. Create a Feature Branch: git checkout -b feature/amazing-feature
 
-Commit Your Changes: git commit -m 'Add some amazing feature'
+3. Commit Your Changes: git commit -m 'Add some amazing feature'
 
-Push to the Branch: git push origin feature/amazing-feature
+4. Push to the Branch: git push origin feature/amazing-feature
 
-Open a Pull Request
+5. Open a Pull Request
 
 ## ❓ FAQ
 Q: Why not just use a generic tool like Open WebUI? A: Those tools are excellent but are general-purpose chatbots. Astral-Drafter is a specialized instrument with features tailored specifically for long-form creative writing, such as the context monitor and direct-to-file saving.
