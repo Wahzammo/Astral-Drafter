@@ -20,13 +20,13 @@ Astral-Drafter is a specialized tool for novel writers and other creative profes
 
 This project began as a fork of the powerful mcp-ollama_server and repurposes its robust back-end file handling to serve a single purpose: streamlining the creative drafting process.
 
-Unlike other UIs, Astral-Drafter is built on a LEAN philosophy:
+- Unlike other UIs, Astral-Drafter is built on a LEAN philosophy:
 
-It's not a generic chatbot. It's a purpose-built drafting assistant.
+- It's not a generic chatbot. It's a purpose-built drafting assistant.
 
-Your data stays local. All processing happens on your machine via Ollama.
+- Your data stays local. All processing happens on your machine via Ollama.
 
-Maximum control, minimal bloat. No features you don't need for writing.
+- Maximum control, minimal bloat. No features you don't need for writing.
 
 ## ✨ Key Features
 - **✍️ Focused Writing Interface**: A clean GUI designed for authors, not developers.
