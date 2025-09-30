@@ -2,251 +2,121 @@
 
 <div align="center">
 
-*Connect the power of Model Context Protocol with local LLMs*
-
-[![GitHub license](https://img.shields.io/github/license/sethuram2003/mcp-ollama_server)](https://github.com/sethuram2003/mcp-ollama_server/blob/main/LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/sethuram2003/mcp-ollama_server?style=social)](https://github.com/sethuram2003/mcp-ollama_server/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/sethuram2003/mcp-ollama_server?style=social)](https://github.com/sethuram2003/mcp-ollama_server/network/members)
-[![GitHub issues](https://img.shields.io/github/issues/sethuram2003/mcp-ollama_server)](https://github.com/sethuram2003/mcp-ollama_server/issues)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
-
-[Getting Started](#-quick-start) • 
-[Features](#-key-features) • 
-[Architecture](#-architecture) • 
-[Documentation](#-documentation) • 
-[Contributing](#-contributing) • 
-[FAQ](#-faq)
+A lean, local-first drafting tool for creative writers, powered by a custom GUI and an Ollama-connected backend.
 
 </div>
-
-## 📋 Overview
-
-**MCP-Ollama Server** bridges the gap between Anthropic's Model Context Protocol (MCP) and local LLMs via Ollama. This integration empowers your on-premise AI models with Claude-like tool capabilities, including file system access, calendar integration, web browsing, email communication, GitHub interactions, and AI image generation—all while maintaining complete data privacy.
-
-Unlike cloud-based AI solutions, MCP-Ollama Server:
-- Keeps all data processing on your local infrastructure
-- Eliminates the need to share sensitive information with third parties
-- Provides a modular approach that allows you to use only the components you need
-- Enables enterprise-grade AI capabilities in air-gapped or high-security environments
-
-
-
-## ✨ Key Features
-
-- **🔒 Complete Data Privacy**: All computations happen locally through Ollama
-- **🔧 Tool Use for Local LLMs**: Extends Ollama models with file, calendar, and other capabilities
-- **🧩 Modular Architecture**: Independent Python service modules that can be deployed selectively
-- **🔌 Easy Integration**: Simple APIs to connect with existing applications
-- **🚀 Performance Optimized**: Minimal overhead to maintain responsive AI interactions
-- **📦 Containerized Deployment**: Docker support for each module (coming soon)
-- **🧪 Extensive Testing**: Comprehensive test coverage for reliability
-
-## 🚀 Quick Start
-
-### Prerequisites
-
-- Python 3.8+ installed
-- [Ollama](https://ollama.ai/) set up on your system
-- Git for cloning the repository
-
-
-## 🧩 Component Overview
-
-MCP-Ollama Server is organized into specialized modules, each providing specific functionality:
-
-### 📅 Calendar Module
-
-```
-calendar/
-├── README.md          # Module-specific documentation
-├── google_calendar.py # Google Calendar API integration
-├── pyproject.toml     # Dependencies and package info
-└── uv.lock        # Dependency lock file
-```
-
-The Calendar module enables your local LLM to:
-- Create, modify, and delete calendar events
-- Check availability and scheduling conflicts
-- Send meeting invitations
-- Set reminders and notifications
-
-### 🔄 Client MCP Module
-
-```
-client_mcp/
-├── README.md      # Module-specific documentation
-├── client.py      # Main client implementation
-├── pyproject.toml # Dependencies and package info
-├── testing.txt    # Test data
-└── uv.lock        # Dependency lock file
-```
-
-The Client module provides:
-- A unified interface to interact with all MCP-enabled services
-- Conversation history management
-- Context handling for improved responses
-- Tool selection and routing logic
-
-### 📁 File System Module
-
-```
-file_system/
-├── README.md          # Module-specific documentation
-├── file_system.py     # File system operations implementation
-├── pyproject.toml     # Dependencies and package info
-└── uv.lock            # Dependency lock file
-```
-
-The File System module allows your local LLM to:
-- Read and write files securely
-- List directory contents
-- Search for files matching specific patterns
-- Parse different file formats (text, CSV, JSON, etc.)
-
-### Installation
-
-```bash
-# 1. First install uv if you haven't already
-curl -LsSf https://astral.sh/uv/install.sh | sh
-
-# 2. Clone the repository
-git clone https://github.com/sethuram2003/mcp-ollama_server.git
-cd mcp-ollama_server
-
-# 3. Verify Ollama model is installed (replace 'llama3' with your preferred model)
-ollama pull llama3
-```
-
-### Module Configuration
-
-1. **📅 Calendar Module:**
-
-```bash
-cd calendar
-uv add pyproject.toml  # Install calendar-specific dependencies
-```
-
-2. **🔄 Client MCP Module:**
-
-```bash
-cd client_mcp
-uv add pyproject.toml  # Install calendar-specific dependencies
-```
-
-3. **📁 File System Module:**
-
-```python
-cd file_system
-uv add pyproject.toml  # Install filesystem dependencies
-```
-### Usage
-
-```bash
-cd client_mcp
-uv run client.py ../file_system/file_system.py
-```
-
-### Interactions with Agent:
-
-![Chat_1](src/calendar_query.png)
-*conversation between AI Agent*
-
-## 🏗️ Architecture
-
-MCP-Ollama Server follows a microservices architecture pattern, where each capability is implemented as an independent service:
-
-
-
-### Key Components:
-
-1. **Ollama Integration Layer**: Connects to your local Ollama instance and routes appropriate requests
-2. **MCP Protocol Handlers**: Translate between standard MCP format and Ollama's requirements
-3. **Service Modules**: Independent modules that implement specific capabilities
-4. **Client Library**: Provides a unified interface for applications to interact with the system
-
-This architecture provides several benefits:
-- **Scalability**: Add new modules without affecting existing ones
-- **Resilience**: System continues functioning even if individual modules fail
-- **Flexibility**: Deploy only the components you need
-- **Security**: Granular control over data access for each module
-
-## 📚 Documentation
-
-### Module-Specific Documentation
-
-Each module contains its own README with detailed implementation notes:
-
-- [Calendar Module Documentation](calendar/README.md)
-- [Client MCP Documentation](client_mcp/README.md)
-- [File System Documentation](file_system/README.md)
-
-## 🛠️ Use Cases
-
-### Enterprise Security & Compliance
-
-Ideal for organizations that need AI capabilities but face strict data sovereignty requirements:
-- Legal firms processing confidential case files
-- Healthcare providers analyzing patient data
-- Financial institutions handling sensitive transactions
-
-### Developer Productivity
-
-Transform your local development environment:
-- Code generation with access to your project files
-- Automated documentation based on codebase analysis
-- Integration with local git repositories
-
-### Personal Knowledge Management
-
-Create a powerful second brain that respects your privacy:
-- Process personal documents and notes
-- Manage calendar and schedule optimization
-- Generate content based on your personal knowledge base
-
-## 🤝 Contributing
-
-We welcome contributions from the community! Here's how you can help:
-
-1. **Fork the Repository**: Create your own fork of the project
-2. **Create a Feature Branch**: `git checkout -b feature/amazing-feature`
-3. **Make Your Changes**: Implement your feature or bug fix
-4. **Run Tests**: Ensure your changes pass all tests
-5. **Commit Changes**: `git commit -m 'Add some amazing feature'`
-6. **Push to Branch**: `git push origin feature/amazing-feature`
-7. **Open a Pull Request**: Submit your changes for review
-
-Please read our [Contributing Guidelines](CONTRIBUTING.md) for more details.
-
-## ❓ FAQ
-
-**Q: How does this differ from using cloud-based AI assistants?**  
-A: MCP-Ollama Server runs entirely on your local infrastructure, ensuring complete data privacy and eliminating dependence on external APIs.
-
-**Q: What models are supported?**  
-A: Any model compatible with Ollama can be used. For best results, we recommend Llama 3, Mistral, or other recent open models with at least 7B parameters.
-
-**Q: How can I extend the system with new capabilities?**  
-A: Follow the modular architecture pattern to create new service modules. See our [Extension Guide](docs/extension.md) for details.
-
-**Q: What are the system requirements?**  
-A: Requirements depend on the Ollama model you choose. For basic functionality, we recommend at least 16GB RAM and a modern multi-core CPU.
-
-## 📄 License
-
-This project is licensed under the terms included in the [LICENSE](LICENSE) file.
-
-## 🙏 Acknowledgements
-
-- [Anthropic](https://www.anthropic.com/) for the Model Context Protocol specification
-- [Ollama](https://ollama.ai/) for their excellent local LLM server
-
----
 
 <div align="center">
-  <p><strong>MCP-Ollama Server</strong> - Bringing cloud-level AI capabilities to your local environment</p>
-  <p>
-    <a href="https://github.com/sethuram2003/mcp-ollama_server/stargazers">⭐ Star us on GitHub</a> •
-    <a href="https://github.com/sethuram2003/mcp-ollama_server/issues">🐛 Report Bug</a> •
-    <a href="https://github.com/sethuram2003/mcp-ollama_server/issues">✨ Request Feature</a>
-  </p>
+
 </div>
+
+<div align="center">
+<img src="" alt="Astral-Drafter Interface" width="700">
+<p><em>The Astral-Drafter user interface in action.</em></p>
+</div>
+
+📋 Overview
+Astral-Drafter is a specialized tool for novel writers and other creative professionals who want to leverage local LLMs without the overhead of complex, generic interfaces. It provides a clean, distraction-free GUI for generating long-form prose, complete with essential features for managing a limited context window.
+
+This project began as a fork of the powerful mcp-ollama_server and repurposes its robust back-end file handling to serve a single purpose: streamlining the creative drafting process.
+
+Unlike other UIs, Astral-Drafter is built on a LEAN philosophy:
+
+It's not a generic chatbot. It's a purpose-built drafting assistant.
+
+Your data stays local. All processing happens on your machine via Ollama.
+
+Maximum control, minimal bloat. No features you don't need for writing.
+
+✨ Key Features
+✍️ Focused Writing Interface: A clean GUI designed for authors, not developers.
+
+📊 Live Context Monitoring: A real-time progress bar shows your estimated token usage to help you stay within your model's context window.
+
+💾 Direct-to-File Saving: Generated prose is automatically saved to a file you specify, creating a seamless workflow from prompt to draft.
+
+🔒 Complete Data Privacy: All models and data are processed locally via Ollama.
+
+⚙️ Minimal Overhead: A lightweight solution that respects your system's resources.
+
+🤖 Model Agnostic: Works with any of your custom Ollama models.
+
+🚀 Quick Start
+Prerequisites
+Python 3.8+ installed
+
+Ollama set up and running on your system
+
+Git for cloning the repository
+
+Installation & Setup
+# 1. First install uv if you haven't already
+curl -LsSf [https://astral.sh/uv/install.sh](https://astral.sh/uv/install.sh) | sh
+
+# 2. Clone your repository
+#    Replace Wahzammo with your actual GitHub username
+git clone [https://github.com/Wahzammo/Astral-Drafter.git](https://github.com/YOUR_GITHUB_USERNAME/Astral-Drafter.git)
+cd Astral-Drafter
+
+# 3. Verify an Ollama model is installed (e.g., your custom qwen-astral)
+ollama pull qwen-astral
+
+Running the Application
+Astral-Drafter has two parts: the back-end server and the front-end GUI.
+
+Step 1: Start the Back-End Server
+
+The server handles the connection to Ollama and saving files. You will need to modify the server code to handle the output_path functionality as we discussed.
+
+# Navigate to the file_system module and install its dependencies
+cd file_system
+uv sync
+
+# Go back to the root and start the server
+# (This command assumes you've modified the server to run stand-alone)
+cd ..
+uv run file_system/file_system.py 
+
+Step 2: Launch the Front-End GUI
+
+The GUI is a single, self-contained HTML file.
+
+Navigate to the gui folder (or wherever you've saved it).
+
+Open the astral_nexus_drafter.html file in your web browser.
+
+You can now paste your outlines and character sheets, specify an output file, and start generating prose.
+
+🏗️ How It Works
+The architecture is simple and efficient:
+
+GUI (Browser): You input your text and output path into the astral_nexus_drafter.html interface. The live context monitor gives you instant feedback.
+
+MCP Server (Python): The GUI sends the full prompt and output path to the local Python server.
+
+Ollama: The server forwards the prompt to your selected Ollama model for generation.
+
+File System & GUI: The server receives the generated prose, simultaneously saves it to your specified file and streams it back to the GUI for you to view in real-time.
+
+🤝 Contributing
+This is a personal tool, but ideas for improving the writer's workflow are always welcome.
+
+Fork the Repository
+
+Create a Feature Branch: git checkout -b feature/amazing-feature
+
+Commit Your Changes: git commit -m 'Add some amazing feature'
+
+Push to the Branch: git push origin feature/amazing-feature
+
+Open a Pull Request
+
+❓ FAQ
+Q: Why not just use a generic tool like Open WebUI? A: Those tools are excellent but are general-purpose chatbots. Astral-Drafter is a specialized instrument with features tailored specifically for long-form creative writing, such as the context monitor and direct-to-file saving.
+
+Q: How accurate is the context monitor? A: It's an estimation based on a common character-to-token ratio (~4 chars/token). It's designed to give you a good visual guide to avoid exceeding your context limit, not a precise count.
+
+🙏 Acknowledgements
+This project is a fork of and is deeply indebted to the fantastic work done on mcp-ollama_server. It provides the core back-end functionality that makes this tool possible.
+
+Ollama for making local LLMs accessible to everyone.
