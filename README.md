@@ -1,4 +1,4 @@
-# 🚀 MCP-Ollama Server
+# 🚀 Astral-Drafter
 
 <div align="center">
 
