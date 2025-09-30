@@ -58,8 +58,8 @@ curl -LsSf [https://astral.sh/uv/install.sh](https://astral.sh/uv/install.sh) | 
 git clone [https://github.com/Wahzammo/Astral-Drafter.git](https://github.com/YOUR_GITHUB_USERNAME/Astral-Drafter.git)
 cd Astral-Drafter
 
-# 3. Verify an Ollama model is installed (e.g., your custom qwen-astral)
-ollama pull qwen-astral
+# 3. Verify an Ollama model is installed (e.g., your custom qwen3 model)
+ollama pull qwen3-astral
 
 Running the Application
 Astral-Drafter has two parts: the back-end server and the front-end GUI.
