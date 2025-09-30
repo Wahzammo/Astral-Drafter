@@ -119,9 +119,9 @@ This is a personal tool, but ideas for improving the writer's workflow are alway
 5. Open a Pull Request
 
 ## ❓ FAQ
-Q: Why not just use a generic tool like Open WebUI? A: Those tools are excellent but are general-purpose chatbots. Astral-Drafter is a specialized instrument with features tailored specifically for long-form creative writing, such as the context monitor and direct-to-file saving.
+**Q: Why not just use a generic tool like Open WebUI**? A: Those tools are excellent but are general-purpose chatbots. Astral-Drafter is a specialized instrument with features tailored specifically for long-form creative writing, such as the context monitor and direct-to-file saving.
 
-Q: How accurate is the context monitor? A: It's an estimation based on a common character-to-token ratio (~4 chars/token). It's designed to give you a good visual guide to avoid exceeding your context limit, not a precise count.
+**Q: How accurate is the context monitor**? A: It's an estimation based on a common character-to-token ratio (~4 chars/token). It's designed to give you a good visual guide to avoid exceeding your context limit, not a precise count.
 
 ## 🙏 Acknowledgements
 This project is a fork of and is deeply indebted to the fantastic work done on mcp-ollama_server. It provides the core back-end functionality that makes this tool possible.
