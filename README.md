@@ -67,17 +67,15 @@ This project is built on a lean, high-performance stack, ensuring maximum effici
 
 1. **Clone your repository**
 
-Replace YOUR\_GITHUB\_USERNAME with your actual GitHub username  
+## Replace YOUR\_GITHUB\_USERNAME with your actual GitHub username  
 git clone \[https://github.com/YOUR\_GITHUB\_USERNAME/Astral-Drafter.git\](https://github.com/YOUR\_GITHUB\_USERNAME/Astral-Drafter.git)  
 cd Astral-Drafter
 
-2.   
-3. **Install Python Dependencies**
+2. **Install Python Dependencies**
 
 pip install \-r requirements.txt
 
-4.   
-5. **Configure the Launcher**  
+3. **Configure the Launcher**  
    * Open launch\_astral\_drafter.bat in a text editor.  
    * Update the placeholder paths at the top of the file to point to your llama.cpp directory, your model file, and this project's directory.
 
