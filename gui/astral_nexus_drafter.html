@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astral Nexus Drafting Tool</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1f2937;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #4b5563;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #6b7280;
+        }
+        .ai-response-container:hover .copy-button {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200">
+
+    <div class="flex h-screen">
+        <!-- Left Panel: Controls -->
+        <div class="w-full max-w-md bg-gray-800 p-6 flex flex-col border-r border-gray-700">
+            <div class="flex items-center justify-between mb-6">
+                <div class="flex items-center">
+                     <svg class="w-8 h-8 mr-3 text-purple-400" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M9.813 15.904 9 18.75l-.813-2.846a4.5 4.5 0 0 0-3.09-3.09L2.25 12l2.846-.813a4.5 4.5 0 0 0 3.09-3.09L9 5.25l.813 2.846a4.5 4.5 0 0 0 3.09 3.09L15.75 12l-2.846.813a4.5 4.5 0 0 0-3.09 3.09ZM18.259 8.715 18 9.75l-.259-1.035a3.375 3.375 0 0 0-2.455-2.456L14.25 6l1.036-.259a3.375 3.375 0 0 0 2.455-2.456L18 2.25l.259 1.035a3.375 3.375 0 0 0 2.456 2.456L21.75 6l-1.035.259a3.375 3.375 0 0 0-2.456 2.456Z" />
+                    </svg>
+                    <h1 class="text-2xl font-bold text-white">Astral Drafter</h1>
+                </div>
+                <button id="new-scene-button" title="Start a new scene" class="p-2 rounded-md hover:bg-gray-700 transition text-gray-400 hover:text-white">
+                    <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+                </button>
+            </div>
+
+            <div class="flex flex-col space-y-4 flex-grow overflow-y-auto pr-2">
+                <!-- Previous Scene Summary -->
+                <div>
+                    <label for="prev-scene-summary" class="block text-sm font-medium text-gray-300 mb-1">Previous Scene Summary</label>
+                    <textarea id="prev-scene-summary" rows="5" class="w-full p-3 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500 transition" placeholder="Paste summary of the preceding scene..."></textarea>
+                </div>
+                
+                <!-- Scene Outline Input -->
+                <div>
+                    <label for="scene-outline" class="block text-sm font-medium text-gray-300 mb-1">Current Scene Outline</label>
+                    <textarea id="scene-outline" rows="8" class="w-full p-3 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500 transition" placeholder="Paste your current scene outline..."></textarea>
+                </div>
+
+                <!-- Character Sheet Input -->
+                <div>
+                    <label for="character-sheet" class="block text-sm font-medium text-gray-300 mb-1">Character Sheets</label>
+                    <textarea id="character-sheet" rows="6" class="w-full p-3 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500 transition" placeholder="Paste relevant character sheets..."></textarea>
+                </div>
+
+                 <!-- Output File Path -->
+                <div>
+                    <label for="output-path" class="block text-sm font-medium text-gray-300 mb-1">Output File Path</label>
+                    <input type="text" id="output-path" class="w-full p-3 bg-gray-700 border border-gray-600 rounded-md shadow-sm focus:ring-purple-500 focus:border-purple-500 transition" placeholder="e.g., drafts/scene_02.txt">
+                </div>
+            </div>
+
+            <!-- Context Usage Monitor -->
+            <div class="mt-4 pt-4 border-t border-gray-700">
+                <label class="block text-sm font-medium text-gray-300 mb-2">Estimated Context Usage</label>
+                <div class="w-full bg-gray-700 rounded-full h-2.5">
+                    <div id="progress-bar" class="bg-purple-500 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
+                </div>
+                <p id="token-count" class="text-right text-sm text-gray-400 mt-1">~0 / 65536 tokens</p>
+            </div>
+
+            <!-- Model Info and Generate Button -->
+            <div class="mt-auto pt-6">
+                <!-- NEW: Static Model Info Display -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-300 mb-1">Active Model (from llama.cpp)</label>
+                    <div class="w-full p-3 bg-gray-700 border border-gray-600 rounded-md">
+                        <p class="text-gray-200 font-mono text-sm">mistral-nemo-instruct-2407</p>
+                    </div>
+                </div>
+
+                <button id="generate-button" class="mt-4 w-full bg-purple-600 text-white font-bold py-3 px-4 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-purple-500 transition flex items-center justify-center disabled:bg-purple-800 disabled:cursor-not-allowed">
+                    <svg id="spinner" class="animate-spin -ml-1 mr-3 h-5 w-5 text-white hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    <span>Generate & Save Prose</span>
+                </button>
+                 <div id="error-message" class="mt-3 text-center text-red-400 text-sm"></div>
+            </div>
+        </div>
+
+        <!-- Right Panel: Chat Interface -->
+        <div class="flex-1 flex flex-col p-6">
+            <div id="chat-container" class="flex-grow overflow-y-auto space-y-6 pr-2">
+                 <!-- Welcome Message -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // --- Element Selectors ---
+        const generateButton = document.getElementById('generate-button');
+        const newSceneButton = document.getElementById('new-scene-button');
+        const spinner = document.getElementById('spinner');
+        const prevSceneInput = document.getElementById('prev-scene-summary');
+        const outlineInput = document.getElementById('scene-outline');
+        const characterInput = document.getElementById('character-sheet');
+        const outputPathInput = document.getElementById('output-path');
+        // REMOVED: const modelSelect = document.getElementById('model-select');
+        const chatContainer = document.getElementById('chat-container');
+        const errorMessage = document.getElementById('error-message');
+        const progressBar = document.getElementById('progress-bar');
+        const tokenCountEl = document.getElementById('token-count');
+        
+        // --- Configuration ---
+        const MCP_SERVER_URL = "http://localhost:8081/mcp"; 
+        const MAX_CONTEXT = 65536;
+
+        const welcomeMessageHTML = `
+            <div class="p-4 bg-gray-800 rounded-lg">
+                <p class="font-semibold text-purple-300 mb-2">Welcome to the Drafting Room</p>
+                <p class="text-gray-300">Provide context from the previous scene, the outline for the new scene, and character sheets. The bridge server will auto-save the generated prose.</p>
+            </div>`;
+
+        // --- Event Listeners ---
+        prevSceneInput.addEventListener('input', updateContextUsage);
+        outlineInput.addEventListener('input', updateContextUsage);
+        characterInput.addEventListener('input', updateContextUsage);
+        generateButton.addEventListener('click', generateProse);
+        newSceneButton.addEventListener('click', resetInterface);
+        
+        // --- Core Functions ---
+        function resetInterface() {
+            prevSceneInput.value = '';
+            outlineInput.value = '';
+            characterInput.value = '';
+            outputPathInput.value = '';
+            chatContainer.innerHTML = welcomeMessageHTML;
+            errorMessage.textContent = '';
+            updateContextUsage();
+        }
+
+        function updateContextUsage() {
+            const prevScene = prevSceneInput.value;
+            const outline = outlineInput.value;
+            const characters = characterInput.value;
+            const promptTemplate = constructPrompt(prevScene, outline, characters);
+
+            const totalChars = promptTemplate.length;
+            const estimatedTokens = Math.round(totalChars / 4);
+            const percentage = Math.min((estimatedTokens / MAX_CONTEXT) * 100, 100);
+
+            progressBar.style.width = `${percentage}%`;
+            tokenCountEl.textContent = `~${estimatedTokens.toLocaleString()} / ${MAX_CONTEXT.toLocaleString()} tokens`;
+            
+            if (percentage > 90) {
+                progressBar.classList.remove('bg-purple-500', 'bg-yellow-500');
+                progressBar.classList.add('bg-red-500');
+            } else if (percentage > 75) {
+                progressBar.classList.remove('bg-purple-500', 'bg-red-500');
+                progressBar.classList.add('bg-yellow-500');
+            } else {
+                progressBar.classList.remove('bg-yellow-500', 'bg-red-500');
+                progressBar.classList.add('bg-purple-500');
+            }
+        }
+
+        async function generateProse() {
+            const prevScene = prevSceneInput.value.trim();
+            const outline = outlineInput.value.trim();
+            const characters = characterInput.value.trim();
+            const outputPath = outputPathInput.value.trim();
+            // REMOVED: const model = modelSelect.value;
+            
+            errorMessage.textContent = '';
+
+            if (!outline || !characters) {
+                errorMessage.textContent = "Please provide both an outline and character sheet.";
+                return;
+            }
+             if (!prevScene) {
+                errorMessage.textContent = "Please provide a summary of the previous scene for context.";
+                return;
+            }
+            if (!outputPath) {
+                errorMessage.textContent = "Please provide an output file path.";
+                return;
+            }
+
+            generateButton.disabled = true;
+            spinner.classList.remove('hidden');
+            generateButton.querySelector('span').textContent = 'Generating...';
+
+            const prompt = constructPrompt(prevScene, outline, characters);
+            
+            addUserMessage(prompt, outputPath);
+
+            const aiResponseContainer = addAiMessageContainer();
+            const aiResponseContent = aiResponseContainer.querySelector('.prose-content');
+
+            try {
+                const response = await fetch(MCP_SERVER_URL, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        // REMOVED: model: model,
+                        prompt: prompt,
+                        stream: true,
+                        output_path: outputPath 
+                    })
+                });
+
+                if (!response.ok) throw new Error(`API request failed: ${response.status} ${response.statusText}`);
+                
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let fullResponse = '';
+
+                while (true) {
+                    const { done, value } = await reader.read();
+                    if (done) break;
+                    
+                    const chunk = decoder.decode(value, { stream: true });
+                    const lines = chunk.split('\n').filter(line => line.trim() !== '');
+
+                    for (const line of lines) {
+                         try {
+                            const parsed = JSON.parse(line);
+                            if (parsed.response) {
+                                fullResponse += parsed.response;
+                                aiResponseContent.innerText = fullResponse;
+                                chatContainer.scrollTop = chatContainer.scrollHeight;
+                            }
+                         } catch (e) {
+                            console.warn("Could not parse JSON line:", line);
+                         }
+                    }
+                }
+                addCopyToClipboardButton(aiResponseContainer, fullResponse);
+                addSaveConfirmation(aiResponseContainer, outputPath);
+
+            } catch (error) {
+                console.error("Error querying Bridge server:", error);
+                aiResponseContent.innerText = `Error connecting to Bridge server. Make sure it's running at ${MCP_SERVER_URL}.\n\nDetails: ${error.message}`;
+                aiResponseContent.classList.add('text-red-400');
+            } finally {
+                generateButton.disabled = false;
+                spinner.classList.add('hidden');
+                generateButton.querySelector('span').textContent = 'Generate & Save Prose';
+            }
+        }
+        
+        function constructPrompt(prevScene, outline, characters) {
+            return `SYSTEM INSTRUCTION: You are a novelist writing a scene for the Astral Nexus universe. Adhere strictly to all provided context. Adopt a third-person limited perspective. Focus on sensory details and "show, don't tell." Generate between 2000 and 2500 words of prose. Do not add any editorializing or plot decisions not present in the outline.
+
+CONTEXT FROM THE PREVIOUS SCENE:
+---
+${prevScene}
+---
+
+HERE IS THE OUTLINE FOR THE CURRENT SCENE:
+---
+${outline}
+---
+
+HERE ARE THE RELEVANT CHARACTER SHEETS:
+---
+${characters}
+---
+
+Now, write the prose for the current scene, ensuring it flows naturally from the previous scene's context.`;
+        }
+        
+        function addUserMessage(prompt, outputPath) {
+             const messageDiv = document.createElement('div');
+             messageDiv.className = 'p-4 bg-gray-700/50 rounded-lg';
+             messageDiv.innerHTML = `
+                <p class="font-semibold text-purple-300 mb-2">Your Final Prompt</p>
+                <p class="text-xs text-gray-400 mb-2 font-mono">Output Path: ${outputPath}</p>
+                <p class="text-gray-300 whitespace-pre-wrap text-sm">${prompt}</p>
+             `;
+             chatContainer.appendChild(messageDiv);
+             chatContainer.scrollTop = chatContainer.scrollHeight;
+        }
+
+        function addAiMessageContainer() {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = 'ai-response-container relative p-4 bg-gray-800 rounded-lg';
+            messageDiv.innerHTML = `
+                <p class="font-semibold text-teal-300 mb-2">Generated Prose (from llama.cpp)</p>
+                <div class="prose-content text-gray-200 whitespace-pre-wrap"></div>
+            `;
+            chatContainer.appendChild(messageDiv);
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+            return messageDiv;
+        }
+
+        function addCopyToClipboardButton(container, text) {
+            const button = document.createElement('button');
+            button.className = 'copy-button absolute top-3 right-3 bg-gray-700 hover:bg-gray-600 text-gray-300 text-xs font-semibold py-1 px-2 rounded-md opacity-0 transition-opacity duration-300';
+            button.textContent = 'Copy';
+            button.onclick = () => {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    button.textContent = 'Copied!';
+                    setTimeout(() => { button.textContent = 'Copy'; }, 2000);
+                } catch (err) {
+                    console.error('Failed to copy text: ', err);
+                    button.textContent = 'Failed!';
+                }
+                document.body.removeChild(textarea);
+            };
+            container.appendChild(button);
+        }
+        
+        function addSaveConfirmation(container, path) {
+            const confirmation = document.createElement('div');
+            confirmation.className = 'mt-3 pt-3 border-t border-gray-700 text-xs text-green-400 font-mono flex items-center';
+            confirmation.innerHTML = `
+                <svg class="w-4 h-4 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" /></svg>
+                <span>Saved successfully to ${path}</span>
+            `;
+            container.appendChild(confirmation);
+        }
+
+        resetInterface();
+    </script>
+</body>
+</html>
+
