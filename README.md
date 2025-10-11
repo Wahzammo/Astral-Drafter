@@ -67,13 +67,13 @@ This project is built on a lean, high-performance stack, ensuring maximum effici
 
 1. **Clone your repository**
 
-## Replace YOUR\_GITHUB\_USERNAME with your actual GitHub username  
-git clone \[https://github.com/YOUR\_GITHUB\_USERNAME/Astral-Drafter.git\](https://github.com/YOUR\_GITHUB\_USERNAME/Astral-Drafter.git)  
-cd Astral-Drafter
+   * Replace YOUR\_GITHUB\_USERNAME with your actual GitHub username  
+   * git clone \[https://github.com/YOUR\_GITHUB\_USERNAME/Astral-Drafter.git\](https://github.com/YOUR\_GITHUB\_USERNAME/Astral-Drafter.git)  
+   * cd Astral-Drafter
 
 2. **Install Python Dependencies**
 
-pip install \-r requirements.txt
+   * pip install \-r requirements.txt
 
 3. **Configure the Launcher**  
    * Open launch\_astral\_drafter.bat in a text editor.  
