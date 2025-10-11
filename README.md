@@ -1,14 +1,13 @@
 # 🚀 Astral-Drafter
 
 <div align="center">
-<div align="center">
 
 *A lean, local-first drafting tool for creative writers, powered by a custom GUI and a high-performance C++ inference engine.*
 
-[![GitHub license](https://img.shields.io/github/license/YOUR_GITHUB_USERNAME/Astral-Drafter)](https://github.com/YOUR_GITHUB_USERNAME/Astral-Drafter/blob/main/LICENSE)
-[![GitHub stars](https://img.shields.io/github/stars/YOUR_GITHUB_USERNAME/Astral-Drafter?style=social)](https://github.com/YOUR_GITHUB_USERNAME/Astral-Drafter/stargazers)
-[![GitHub forks](https://img.shields.io/github/forks/YOUR_GITHUB_USERNAME/Astral-Drafter?style=social)](https://github.com/YOUR_GITHUB_USERNAME/Astral-Drafter/network/members)
-[![GitHub issues](https://img.shields.io/github/issues/YOUR_GITHUB_USERNAME/Astral-Drafter)](https://github.com/YOUR_GITHUB_USERNAME/Astral-Drafter/issues)
+[![GitHub license](https://img.shields.io/github/license/Wahzammo/Astral-Drafter)](https://github.com/Wahzammo/Astral-Drafter/blob/main/LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/Wahzammo/Astral-Drafter?style=social)](https://github.com/Wahzammo/Astral-Drafter/stargazers)
+[![GitHub forks](https://img.shields.io/github/forks/Wahzammo/Astral-Drafter?style=social)](https://github.com/Wahzammo/Astral-Drafter/network/members)
+[![GitHub issues](https://img.shields.io/github/issues/Wahzammo/Astral-Drafter)](https://github.com/Wahzammo/Astral-Drafter/issues)
 
 [Getting Started](#-installation--setup) • 
 [Tech Stack](#-technology-stack--workflow) • 
@@ -73,8 +72,7 @@ This project is built on a lean, high-performance stack, ensuring maximum effici
 
 1.  **Clone your repository**
     ```bash
-    # Replace YOUR_GITHUB_USERNAME with your actual GitHub username
-    git clone https://github.com/YOUR_GITHUB_USERNAME/Astral-Drafter.git
+    git clone https://github.com/Wahzammo/Astral-Drafter.git
     cd Astral-Drafter
     ```
 
