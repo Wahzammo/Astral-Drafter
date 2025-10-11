@@ -31,7 +31,7 @@ This tool was created to overcome the limitations and overhead of generic AI too
 
 ## **✨ Screenshot (v0.1)**
 
-<img src="./assets/Astral_Drafter_GUI.png" alt="Screen shot of GUI" width="400">
+<img src="./assets/Astral_Drafter_GUI.png" alt="Screen shot of GUI" width="800">
 
 ## **⚙️ Technology Stack & Workflow**
 
