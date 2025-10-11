@@ -67,7 +67,7 @@ This project is built on a lean, high-performance stack, ensuring maximum effici
 
 1. **Clone your repository**
 
-# Replace YOUR\_GITHUB\_USERNAME with your actual GitHub username  
+Replace YOUR\_GITHUB\_USERNAME with your actual GitHub username  
 git clone \[https://github.com/YOUR\_GITHUB\_USERNAME/Astral-Drafter.git\](https://github.com/YOUR\_GITHUB\_USERNAME/Astral-Drafter.git)  
 cd Astral-Drafter
 
