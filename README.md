@@ -33,7 +33,7 @@ This tool was created to overcome the limitations and overhead of generic AI too
 
 ## ✨ Screenshot (v0.1)
 
-![Astral Drafter GUI](./assets/Astral_Draft_GUI.png)
+![Astral Drafter GUI](./assets/Astral_Drafter_GUI.png)
 
 ## ⚙️ Technology Stack & Workflow
 
