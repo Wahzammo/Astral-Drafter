@@ -1,18 +1,18 @@
 # **🚀 Astral-Drafter**
 
-<div align="center"\>
+<div align="center">
 
 *A lean, local-first drafting tool for creative writers, powered by a custom GUI and a high-performance C++ inference engine.*
 
-Getting Started •
+• Getting Started
 
-Tech Stack •
+• Tech Stack 
 
-Usage •
+• Usage
 
-Acknowledgements
+• Acknowledgements
 
-</div\>
+</div>
 
 ## **📋 Overview**
 
@@ -31,7 +31,7 @@ This tool was created to overcome the limitations and overhead of generic AI too
 
 ## **✨ Screenshot (v0.1)**
 
-<img src="./assets/Astral_Drafter_GUI.png" alt="Screen shot of GUI" width="200">
+<img src="./assets/Astral_Drafter_GUI.png" alt="Screen shot of GUI" width="400">
 
 ## **⚙️ Technology Stack & Workflow**
 
@@ -67,7 +67,7 @@ This project is built on a lean, high-performance stack, ensuring maximum effici
 
 1. **Clone your repository**
 
-\# Replace YOUR\_GITHUB\_USERNAME with your actual GitHub username  
+# Replace YOUR\_GITHUB\_USERNAME with your actual GitHub username  
 git clone \[https://github.com/YOUR\_GITHUB\_USERNAME/Astral-Drafter.git\](https://github.com/YOUR\_GITHUB\_USERNAME/Astral-Drafter.git)  
 cd Astral-Drafter
 
