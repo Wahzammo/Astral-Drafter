@@ -27,7 +27,7 @@ This tool was created to overcome the limitations and overhead of generic AI too
 * **💾 Auto-Save to File**: Generated prose is automatically saved to a user-specified file path.  
 * **🔒 100% Local & Private**: No data ever leaves your machine.  
 * **👆 One-Click Launch**: A simple batch script starts all necessary components.  
-* **💬 Conversational Editing**: After the initial draft, you can provide follow-up instructions to refine and rewrite the text.
+* **💬 Conversational Editing**: After the initial draft, you can provide follow-up instructions to refine and rewrite the text. (WIP)
 
 ## **✨ Screenshot (v0.1)**
 
