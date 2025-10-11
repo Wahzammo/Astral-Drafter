@@ -1,6 +1,6 @@
 # **🚀 Astral-Drafter**
 
-\<div align="center"\>
+<div align="center"\>
 
 *A lean, local-first drafting tool for creative writers, powered by a custom GUI and a high-performance C++ inference engine.*
 
@@ -12,7 +12,7 @@ Usage •
 
 Acknowledgements
 
-\</div\>
+</div\>
 
 ## **📋 Overview**
 
