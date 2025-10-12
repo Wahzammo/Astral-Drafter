@@ -3,11 +3,23 @@ import socketserver
 import json
 import requests
 import os
+import sys
+import subprocess
 
 LLAMA_CPP_API_URL = "http://localhost:8080/v1/chat/completions"
 PORT = 8081
 
+# Global reference to the server instance
+server_instance = None
+
 class DrafterBridgeServer(http.server.BaseHTTPRequestHandler):
+    
+    def do_GET(self):
+        """Handle GET requests for model information"""
+        if self.path == '/model_info':
+            self._handle_model_info_request()
+        else:
+            self.send_error(404, "Not Found")
     
     def do_POST(self):
         try:
@@ -15,8 +27,10 @@ class DrafterBridgeServer(http.server.BaseHTTPRequestHandler):
             post_data = self.rfile.read(content_length)
             data = json.loads(post_data)
 
-            # NEW: Check if this is a save request or a generation request
-            if 'save_content' in data:
+            # Check if this is a shutdown, save, or generation request
+            if 'shutdown' in data:
+                self._handle_shutdown_request()
+            elif 'save_content' in data:
                 self._handle_save_request(data)
             else:
                 self._handle_generation_request(data)
@@ -24,6 +38,75 @@ class DrafterBridgeServer(http.server.BaseHTTPRequestHandler):
         except (json.JSONDecodeError, TypeError, KeyError) as e:
             self._send_error(f"Invalid JSON request: {e}", 400)
             return
+
+    # Function to handle model info request
+    def _handle_model_info_request(self):
+        """Fetch and return model information from llama.cpp"""
+        try:
+            # Query the llama.cpp server for model info
+            response = requests.get("http://localhost:8080/v1/models")
+            response.raise_for_status()
+            
+            model_data = response.json()
+            # Extract model name from the response
+            model_name = "Unknown"
+            if 'data' in model_data and len(model_data['data']) > 0:
+                model_id = model_data['data'][0].get('id', 'Unknown')
+                # Clean up the model name (remove path if present, works on both Windows and Unix)
+                model_name = os.path.basename(model_id)
+                # Remove .gguf extension if present
+                if model_name.endswith('.gguf'):
+                    model_name = model_name[:-5]
+            
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            response_data = json.dumps({'model_name': model_name})
+            self.wfile.write(response_data.encode('utf-8'))
+            
+        except requests.exceptions.RequestException as e:
+            self._send_error(f"Could not fetch model info from llama.cpp: {e}", 503)
+        except Exception as e:
+            self._send_error(f"Error retrieving model info: {e}", 500)
+
+    # Function to handle shutdown request
+    def _handle_shutdown_request(self):
+        try:
+            self.send_response(200)
+            self.send_header('Content-Type', 'application/json')
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            response = json.dumps({'message': 'Shutting down servers...'})
+            self.wfile.write(response.encode('utf-8'))
+            
+            # Kill llama-server.exe
+            try:
+                subprocess.run(['taskkill', '/IM', 'llama-server.exe', '/F'], 
+                             capture_output=True, check=False)
+                print("Terminated llama-server.exe")
+            except Exception as e:
+                print(f"Error terminating llama-server: {e}")
+            
+            # Schedule this server to shut down
+            import threading
+            def shutdown_self():
+                import time
+                time.sleep(1)  # Give time for response to be sent
+                print("Shutting down bridge server...")
+                
+                # Shutdown the HTTP server
+                global server_instance
+                if server_instance:
+                    server_instance.shutdown()
+                
+                # Force exit the process
+                os._exit(0)
+            
+            threading.Thread(target=shutdown_self, daemon=True).start()
+            
+        except Exception as e:
+            self._send_error(f"Error during shutdown: {e}", 500)
 
     # NEW: Function to handle saving the file
     def _handle_save_request(self, data):
@@ -116,7 +199,13 @@ class DrafterBridgeServer(http.server.BaseHTTPRequestHandler):
         self.end_headers()
 
 if __name__ == "__main__":
-    with socketserver.TCPServer(("", PORT), DrafterBridgeServer) as httpd:
-        print(f"🚀 Astral Drafter BRIDGE server starting on http://localhost:{PORT}")
-        print(f"Ready to forward requests to llama.cpp at {LLAMA_CPP_API_URL}")
+    httpd = socketserver.TCPServer(("", PORT), DrafterBridgeServer)
+    server_instance = httpd
+    print(f"🚀 Astral Drafter BRIDGE server starting on http://localhost:{PORT}")
+    print(f"Ready to forward requests to llama.cpp at {LLAMA_CPP_API_URL}")
+    try:
         httpd.serve_forever()
+    except KeyboardInterrupt:
+        print("\nShutting down gracefully...")
+    finally:
+        httpd.server_close()
