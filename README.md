@@ -26,7 +26,7 @@ This tool was created to overcome the limitations and overhead of generic AI too
 
 -   **📝 Purpose-Built UI**: A clean, single-page web interface for pasting context, outlines, and character sheets.
 -   **🚀 High-Speed Generation**: Leverages `llama.cpp` for native performance and GPU acceleration.
--   **💾 Auto-Save to File**: Generated prose is automatically saved to a user-specified file path.
+-   **💾 Write to File**: Generated prose is saved on command to a user-specified file path.
 -   **🔒 100% Local & Private**: No data ever leaves your machine.
 -   **👆 One-Click Launch**: A simple batch script starts all necessary components.
 -   **💬 Conversational Editing**: After the initial draft, you can provide follow-up instructions to refine and rewrite the text.
@@ -91,9 +91,10 @@ This project is built on a lean, high-performance stack, ensuring maximum effici
 2.  Two terminal windows will open for the servers, and the GUI will launch in your browser.
 3.  In the GUI, paste your context, outline, and character sheets into the text boxes on the left.
 4.  Specify an absolute file path for the output (e.g., `D:\Novels\scene_03.txt`).
-5.  Click **"Start Scene"** to generate the first draft.
-6.  Once generated, use the chat input at the bottom to provide editing instructions. Each new generation will overwrite the file.
-7.  When finished, click the red **Shutdown** button in the GUI to close both server windows cleanly.
+5.  Click **"Generate Prose"** to generate the first draft.
+6.  Once generated, use the chat input at the bottom to provide editing instructions.
+7.  Click **"Save to File"**, each new press will overwrite the file. 
+7.  When finished, click the red **Power** button in the GUI to close both server windows cleanly.
 
 ## 🙏 Acknowledgements
 
