@@ -4,26 +4,22 @@ import json
 import requests
 import os
 
-# --- Configuration ---
-# This is the standard endpoint for a llama.cpp server running in OpenAI-compatible mode.
 LLAMA_CPP_API_URL = "http://localhost:8080/v1/chat/completions"
-PORT = 8081 # Using a different port (8081) so it doesn't clash with llama.cpp (8080)
+PORT = 8081
 
 class DrafterBridgeServer(http.server.BaseHTTPRequestHandler):
     
     def do_POST(self):
-        """Handles POST requests and bridges them to the llama.cpp server."""
         try:
             content_length = int(self.headers['Content-Length'])
             post_data = self.rfile.read(content_length)
             data = json.loads(post_data)
 
-            model = data.get('model') # We get this from the GUI, but llama.cpp already has a model loaded.
-            prompt = data.get('prompt')
+            conversation_history = data.get('conversation_history', [])
             output_path = data.get('output_path')
             
-            if not all([prompt, output_path]):
-                self._send_error("Missing 'prompt' or 'output_path' in request.", 400)
+            if not conversation_history or not output_path:
+                self._send_error("Missing 'conversation_history' or 'output_path'.", 400)
                 return
 
         except (json.JSONDecodeError, TypeError, KeyError) as e:
@@ -36,21 +32,17 @@ class DrafterBridgeServer(http.server.BaseHTTPRequestHandler):
                 os.makedirs(output_dir, exist_ok=True)
             
             with open(output_path, 'w', encoding='utf-8') as outfile:
-                self._stream_to_llama_cpp(prompt, outfile)
+                self._stream_to_llama_cpp(conversation_history, outfile)
 
         except IOError as e:
             self._send_error(f"Could not write to file: {e}", 500)
         except Exception as e:
             self._send_error(f"An unexpected server error occurred: {e}", 500)
     
-    def _stream_to_llama_cpp(self, prompt, outfile):
-        """Connects to llama.cpp, streams the response, and writes to client/file."""
+    def _stream_to_llama_cpp(self, conversation_history, outfile):
         try:
-            # The payload format is different here. It mimics OpenAI's API.
             llama_cpp_payload = {
-                "messages": [
-                    {"role": "user", "content": prompt}
-                ],
+                "messages": conversation_history,
                 "stream": True
             }
 
@@ -70,19 +62,17 @@ class DrafterBridgeServer(http.server.BaseHTTPRequestHandler):
                     if line:
                         try:
                             chunk = json.loads(line)
-                            # The response structure is different from Ollama's.
                             content = chunk.get('choices', [{}])[0].get('delta', {}).get('content', '')
                             if content:
                                 outfile.write(content)
-                                # We need to wrap it in Ollama's format so the GUI can understand it.
                                 gui_response = json.dumps({"response": content})
                                 self.wfile.write(gui_response.encode('utf-8') + b'\n')
                                 self.wfile.flush()
                         except (json.JSONDecodeError, IndexError):
-                            print(f"Warning: Could not decode JSON line from llama.cpp: {line}")
+                            print(f"Warning: Could not decode JSON line: {line}")
 
         except requests.exceptions.RequestException as e:
-            self._send_error(f"Could not connect to llama.cpp server at {LLAMA_CPP_API_URL}. Is it running?: {e}", 503)
+            self._send_error(f"Could not connect to llama.cpp at {LLAMA_CPP_API_URL}: {e}", 503)
 
     def _send_error(self, message, code):
         self.send_response(code)
