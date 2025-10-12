@@ -99,8 +99,13 @@
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                         <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                     </svg>
-                    <span>Generate & Save Prose</span>
+                    <span>Generate Prose</span>
                 </button>
+
+                <button id="save-button" class="mt-2 w-full bg-green-600 text-white font-bold py-3 px-4 rounded-md hover:bg-green-700 disabled:bg-green-800 disabled:cursor-not-allowed transition" disabled>
+                    <span>Save to File</span>
+                </button>
+
                  <div id="error-message" class="mt-3 text-center text-red-400 text-sm"></div>
             </div>
         </div>
@@ -128,6 +133,7 @@
     <script>
         // --- Element Selectors ---
 const generateButton = document.getElementById('generate-button');
+const saveButton = document.getElementById('save-button');
 const newSceneButton = document.getElementById('new-scene-button');
 const spinner = document.getElementById('spinner');
 const prevSceneInput = document.getElementById('prev-scene-summary');
@@ -161,6 +167,7 @@ prevSceneInput.addEventListener('input', updateContextUsage);
 outlineInput.addEventListener('input', updateContextUsage);
 characterInput.addEventListener('input', updateContextUsage);
 generateButton.addEventListener('click', generateProse);
+saveButton.addEventListener('click', saveProseToFile);
 newSceneButton.addEventListener('click', resetInterface);
 sendButton.addEventListener('click', sendChatMessage);
 chatInput.addEventListener('keypress', (e) => {
@@ -180,9 +187,10 @@ function resetInterface() {
     conversationHistory = [];
     currentOutputPath = '';
     lastGeneratedContent = '';
-    chatInput.value = '';
+    chatInput.value = true;
     chatInput.disabled = true;
     sendButton.disabled = true;
+    saveButton.disabled = true;
     updateContextUsage();
 }
 
@@ -208,6 +216,47 @@ function updateContextUsage() {
     } else {
         progressBar.classList.remove('bg-yellow-500', 'bg-red-500');
         progressBar.classList.add('bg-purple-500');
+    }
+}
+
+async function saveProseToFile() {
+    if (!lastGeneratedContent || !currentOutputPath) {
+        errorMessage.textContent = "No content to save or output path is missing.";
+        return;
+    }
+
+    saveButton.disabled = true;
+    errorMessage.textContent = '';
+
+    try {
+        const response = await fetch(MCP_SERVER_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                save_content: lastGeneratedContent,
+                output_path: currentOutputPath
+            })
+        });
+
+        if (!response.ok) {
+            const errorData = await response.json();
+            throw new Error(errorData.error || `Save request failed: ${response.status}`);
+        }
+        
+        const result = await response.json();
+        // You can add a success message here if you want
+        console.log(result.message);
+        // Maybe flash the button green or show a small confirmation message
+        const originalText = saveButton.textContent;
+        saveButton.textContent = 'Saved!';
+        setTimeout(() => { saveButton.textContent = originalText; }, 2000);
+
+
+    } catch (error) {
+        console.error("Error saving file:", error);
+        errorMessage.textContent = `Error saving file: ${error.message}`;
+    } finally {
+        saveButton.disabled = false;
     }
 }
 
@@ -268,6 +317,7 @@ async function performGeneration() {
     generateButton.disabled = true;
     sendButton.disabled = true;
     chatInput.disabled = true;
+    saveButton.disabled = true;
     spinner.classList.remove('hidden');
 
     const aiResponseContainer = addAiMessageContainer();
@@ -280,7 +330,6 @@ async function performGeneration() {
             body: JSON.stringify({
                 conversation_history: conversationHistory,
                 stream: true,
-                output_path: currentOutputPath 
             })
         });
 
@@ -318,8 +367,8 @@ async function performGeneration() {
         });
 
         addCopyToClipboardButton(aiResponseContainer, fullResponse);
-        addSaveConfirmation(aiResponseContainer, currentOutputPath);
-
+        saveButton.disabled = false;
+        
     } catch (error) {
         console.error("Error querying Bridge server:", error);
         aiResponseContent.innerText = `Error connecting to Bridge server. Make sure it's running at ${MCP_SERVER_URL}.\n\nDetails: ${error.message}`;
@@ -409,7 +458,9 @@ function addSaveConfirmation(container, path) {
     container.appendChild(confirmation);
 }
 
-resetInterface();
+function resetInterface() {
+    saveButton.disabled = true;
+};
     </script>
 </body>
 </html>
