@@ -12,6 +12,9 @@ PORT = 8081
 # Global reference to the server instance
 server_instance = None
 
+# Safe root directory for saving files
+SAFE_SAVE_ROOT = os.path.abspath("./saved_files")
+
 class DrafterBridgeServer(http.server.BaseHTTPRequestHandler):
     
     def do_GET(self):
@@ -118,19 +121,26 @@ class DrafterBridgeServer(http.server.BaseHTTPRequestHandler):
             return
         
         try:
-            output_dir = os.path.dirname(output_path)
+            # Construct full save path
+            full_output_path = os.path.abspath(os.path.join(SAFE_SAVE_ROOT, output_path))
+            # Ensure the resulting path is under SAFE_SAVE_ROOT
+            if not full_output_path.startswith(SAFE_SAVE_ROOT + os.sep):
+                self._send_error("Invalid path: writing outside of SAFE_SAVE_ROOT is not allowed.", 400)
+                return
+
+            output_dir = os.path.dirname(full_output_path)
             if output_dir:
                 os.makedirs(output_dir, exist_ok=True)
             
-            # Write the final content to the file
-            with open(output_path, 'w', encoding='utf-8') as outfile:
+            # Write the final content to the file (safe path)
+            with open(full_output_path, 'w', encoding='utf-8') as outfile:
                 outfile.write(content)
             
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
             self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
-            response = json.dumps({'message': f'Successfully saved to {output_path}'})
+            response = json.dumps({'message': f'Successfully saved to {full_output_path}'})
             self.wfile.write(response.encode('utf-8'))
 
         except IOError as e:
