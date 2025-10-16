@@ -487,10 +487,17 @@ Now, write the prose for the current scene, ensuring it flows naturally from the
 function addUserChatMessage(message) {
     const messageDiv = document.createElement('div');
     messageDiv.className = 'p-4 bg-gray-700/50 rounded-lg';
-    messageDiv.innerHTML = `
-        <p class="font-semibold text-purple-300 mb-2">Your Instruction</p>
-        <p class="text-gray-300 whitespace-pre-wrap text-sm">${message}</p>
-    `;
+    
+    const titleP = document.createElement('p');
+    titleP.className = 'font-semibold text-purple-300 mb-2';
+    titleP.textContent = 'Your Instruction';
+    
+    const contentP = document.createElement('p');
+    contentP.className = 'text-gray-300 whitespace-pre-wrap text-sm';
+    contentP.textContent = message; // Safe from XSS - textContent escapes HTML
+    
+    messageDiv.appendChild(titleP);
+    messageDiv.appendChild(contentP);
     chatContainer.appendChild(messageDiv);
     chatContainer.scrollTop = chatContainer.scrollHeight;
 }

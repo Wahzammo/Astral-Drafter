@@ -1,3 +1,18 @@
+"""
+Astral Drafter Bridge Server
+Bridges the GUI with the llama.cpp inference server.
+
+SECURITY NOTICE (for local use only):
+- This server is designed for LOCAL USE ONLY on a single machine
+- CORS is intentionally open for localhost convenience
+- No authentication/authorization is implemented
+- If you ever deploy this beyond localhost, implement:
+  1. CORS restrictions (see TODO comments)
+  2. Authentication/authorization
+  3. Rate limiting
+  4. Security logging
+"""
+
 import http.server
 import socketserver
 import json
@@ -12,8 +27,12 @@ PORT = 8081
 # Global reference to the server instance
 server_instance = None
 
-# Safe root directory for saving files
-SAFE_SAVE_ROOT = os.path.abspath("./saved_files")
+# Safe root directory for saving files (relative to this script's location)
+# This ensures the path is consistent regardless of where the script is run from
+SAFE_SAVE_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "saved_files"))
+
+# Maximum file size allowed (10MB) - prevents disk exhaustion attacks
+MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024  # 10MB
 
 class DrafterBridgeServer(http.server.BaseHTTPRequestHandler):
     
@@ -63,6 +82,7 @@ class DrafterBridgeServer(http.server.BaseHTTPRequestHandler):
             
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
+            # TODO: Restrict CORS if ever deployed beyond localhost (use 'http://localhost' instead of '*')
             self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
             response_data = json.dumps({'model_name': model_name})
@@ -78,6 +98,7 @@ class DrafterBridgeServer(http.server.BaseHTTPRequestHandler):
         try:
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
+            # TODO: Restrict CORS if ever deployed beyond localhost
             self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
             response = json.dumps({'message': 'Shutting down servers...'})
@@ -120,6 +141,15 @@ class DrafterBridgeServer(http.server.BaseHTTPRequestHandler):
             self._send_error("Missing 'save_content' or 'output_path' for save request.", 400)
             return
         
+        # Check file size limit to prevent disk exhaustion
+        content_size = len(content.encode('utf-8'))
+        if content_size > MAX_FILE_SIZE_BYTES:
+            self._send_error(
+                f"Content too large: {content_size} bytes exceeds maximum allowed size of {MAX_FILE_SIZE_BYTES} bytes ({MAX_FILE_SIZE_BYTES // (1024*1024)}MB)",
+                400
+            )
+            return
+        
         try:
             # Construct full save path
             full_output_path = os.path.abspath(os.path.join(SAFE_SAVE_ROOT, output_path))
@@ -138,6 +168,7 @@ class DrafterBridgeServer(http.server.BaseHTTPRequestHandler):
             
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
+            # TODO: Restrict CORS if ever deployed beyond localhost
             self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
             response = json.dumps({'message': f'Successfully saved to {full_output_path}'})
@@ -170,6 +201,7 @@ class DrafterBridgeServer(http.server.BaseHTTPRequestHandler):
 
             self.send_response(200)
             self.send_header('Content-Type', 'application/json')
+            # TODO: Restrict CORS if ever deployed beyond localhost
             self.send_header('Access-Control-Allow-Origin', '*') 
             self.end_headers()
 
@@ -196,6 +228,7 @@ class DrafterBridgeServer(http.server.BaseHTTPRequestHandler):
     def _send_error(self, message, code):
         self.send_response(code)
         self.send_header('Content-Type', 'application/json')
+        # TODO: Restrict CORS if ever deployed beyond localhost
         self.send_header('Access-Control-Allow-Origin', '*')
         self.end_headers()
         error_response = json.dumps({'error': message})
@@ -203,6 +236,7 @@ class DrafterBridgeServer(http.server.BaseHTTPRequestHandler):
 
     def do_OPTIONS(self):
         self.send_response(200, "ok")
+        # TODO: Restrict CORS if ever deployed beyond localhost
         self.send_header('Access-Control-Allow-Origin', '*')
         self.send_header('Access-Control-Allow-Methods', 'POST, OPTIONS')
         self.send_header("Access-Control-Allow-Headers", "X-Requested-With, Content-Type")

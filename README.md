@@ -94,7 +94,32 @@ This project is built on a lean, high-performance stack, ensuring maximum effici
 5.  Click **"Generate Prose"** to generate the first draft.
 6.  Once generated, use the chat input at the bottom to provide editing instructions.
 7.  Click **"Save to File"**, each new press will overwrite the file. 
-7.  When finished, click the red **Power** button in the GUI to close both server windows cleanly.
+8.  When finished, click the red **Power** button in the GUI to close both server windows cleanly.
+
+## 🔒 Security Notice
+
+**This application is designed for LOCAL USE ONLY on a single machine.**
+
+### Current Security Measures (v0.1)
+- ✅ **XSS Prevention**: User input is properly sanitized in the GUI
+- ✅ **Path Traversal Protection**: Files can only be saved to a designated `saved_files` directory
+- ✅ **File Size Limits**: Maximum 10MB per file to prevent disk exhaustion
+- ✅ **Input Validation**: Basic validation on all server endpoints
+
+### Intentionally Omitted (for local convenience)
+- ❌ **No Authentication**: Not needed for single-user local operation
+- ❌ **Open CORS**: Allows localhost convenience (marked with TODO comments for future)
+- ❌ **No Rate Limiting**: Not required when you're the only user
+
+### ⚠️ Important
+**Do NOT expose this application to a network or the internet without implementing:**
+1. CORS restrictions
+2. Authentication/authorization
+3. Rate limiting
+4. Security logging
+5. HTTPS/TLS encryption
+
+All necessary TODO comments are already in the codebase to guide future hardening.
 
 ## 🙏 Acknowledgements
 
